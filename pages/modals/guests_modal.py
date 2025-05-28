@@ -1,15 +1,12 @@
-from playwright.sync_api import Page, expect
-from helpers.date_picker_helper import DatePickerHelper
 from pages.ui_components.stepper import Stepper
 from typing import Literal
 
 
-class GuestsModal():
+class GuestsModal:
     ADULTS_STEPPER = "adults"
     CHILDREN_STEPPER = "children"
     INFANTS_STEPPER = "infants"
     PETS_STEPPER = "pets"
-    
 
     def __init__(self, page: Page, context: Literal["search", "checkout"], logger=None):
         self.page = page
@@ -32,11 +29,11 @@ class GuestsModal():
             return {
                 "plus": "GUEST_PICKER-{type}-stepper-increase-button",
                 "minus": "GUEST_PICKER-{type}-stepper-decrease-button",
-                "value": "GUEST_PICKER-{type}-stepper-value", 
+                "value": "GUEST_PICKER-{type}-stepper-value",
             }
         else:
             raise ValueError(f"Unsupported modal context: {context}")
-    
+
     def set_adults(self, count: int):
         self.adults_stepper.set_stepper_to(count)
 

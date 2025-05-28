@@ -3,3 +3,7 @@
 reports/
 .benchmarks
 .pytest_cache
+**/__pycache__/
+reports/
+.pre-commit-config.yaml
+.vscode/settings.json

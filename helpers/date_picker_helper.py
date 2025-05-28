@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 import random
 
 
-class DatePickerHelper():
+class DatePickerHelper:
 
     def __init__(self, logger=None):
         self._logger = logger
@@ -19,7 +19,7 @@ class DatePickerHelper():
         check_out = check_in + timedelta(days=stay_length)
 
         return check_in.strftime("%Y-%m-%d"), check_out.strftime("%Y-%m-%d")
-    
+
     @staticmethod
     def format_to_airbnb_display(iso_date: str) -> str:
         """
@@ -33,20 +33,20 @@ class DatePickerHelper():
         """
         dt = datetime.strptime(iso_date, "%Y-%m-%d")
         return dt.strftime("%b %-d")
-    
+
     @staticmethod
     def format_airbnb_checkout_date_range(checkin: str, checkout: str) -> str:
         checkin_dt = datetime.strptime(checkin, "%Y-%m-%d")
         checkout_dt = datetime.strptime(checkout, "%Y-%m-%d")
 
         month_abbr = checkin_dt.strftime("%b")  # Jun
-        day_start = checkin_dt.day              # 10
-        day_end = checkout_dt.day               # 19
+        day_start = checkin_dt.day  # 10
+        day_end = checkout_dt.day  # 19
 
         return f"{month_abbr} {day_start} – {day_end}"
-    
-    #prices
+
+    # prices
     @staticmethod
     def price_str_to_float(price_str: str) -> int:
         cleaned = price_str.replace("₪", "").replace(",", "").split(".")[0]
-        return int(cleaned) 
+        return int(cleaned)

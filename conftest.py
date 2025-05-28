@@ -2,10 +2,11 @@ import logging
 import pytest
 from helpers.logger_helper import get_logger
 
+
 @pytest.fixture(scope="session", autouse=True)
 def logger_fixture():
     logger = get_logger("test_session")
-    
+
     # Ensure global logging is configured
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.INFO)
@@ -20,6 +21,7 @@ def logger_fixture():
         root_logger.addHandler(console_handler)
 
     return logger
+
 
 @pytest.fixture(autouse=True)
 def inject_logger(request, logger_fixture):
