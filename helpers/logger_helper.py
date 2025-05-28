@@ -1,21 +1,17 @@
 import logging
 import sys
 
-def get_logger(name: str = "test_logger") -> logging.Logger:
+def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
+    # Avoid adding multiple handlers if already configured
     if not logger.handlers:
-        # Console handler
-        console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(logging.DEBUG)
-
-        # Format
+        handler = logging.StreamHandler()
         formatter = logging.Formatter(
-            "[%(asctime)s] %(levelname)s - %(name)s - %(message)s", "%H:%M:%S"
+            "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
         )
-        console_handler.setFormatter(formatter)
-
-        logger.addHandler(console_handler)
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
 
     return logger
