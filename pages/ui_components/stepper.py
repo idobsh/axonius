@@ -56,7 +56,9 @@ class Stepper:
     def set_stepper_to(self, target: int):
         current = self.get_value()
         if self.logger:
-            self.logger.info(f"Setting '{self._type}' stepper from {current} to {target}")
+            self.logger.info(
+                f"Setting '{self._type}' stepper from {current} to {target}"
+            )
 
         if current < target:
             for i in range(target - current):
