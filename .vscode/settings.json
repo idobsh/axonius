@@ -1,0 +1,18 @@
+{
+  "python.defaultInterpreterPath": "/Users/idobenshmuel/py313-playwright/bin/python",
+  "terminal.integrated.defaultProfile.osx": "zsh-with-venv",
+  "terminal.integrated.profiles.osx": {
+    "zsh-with-venv": {
+      "path": "zsh",
+      "args": [
+        "-c",
+        "source /Users/idobenshmuel/py313-playwright/bin/activate && exec zsh"
+      ]
+    }
+  },
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}
