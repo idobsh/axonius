@@ -1,10 +1,6 @@
 from playwright.sync_api import Page
 from pages.base_page import BasePage
-from helpers.utils import (
-    format_airbnb_checkout_date_range,
-    clean_string,
-    price_str_to_float,
-)
+from helpers.utils import format_airbnb_checkout_date_range, clean_string, price_str_to_float
 from pages.modals.guests_modal import GuestsModal
 from tests.tests_data.Vacation import Vacation
 
@@ -47,7 +43,7 @@ class BookingPage(BasePage):
         )
         actual_dates = self.get_dates()
         assert (
-            expected_dates in self.get_dates()
+            expected_dates in actual_dates
         ), f"Expected dates {expected_dates} not found in booking page. Found: {self.get_dates()}"
 
     def verify_appartment_name(self, appartment_name: str):
