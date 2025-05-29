@@ -1,3 +1,4 @@
+from playwright.sync_api import Page
 from pages.ui_components.stepper import Stepper
 from typing import Literal
 

@@ -1,9 +1,12 @@
 from playwright.sync_api import Page
 from pages.base_page import BasePage
-from helpers.date_picker_helper import DatePickerHelper
+from helpers.utils import (
+    format_airbnb_checkout_date_range,
+    clean_string,
+    price_str_to_float,
+)
 from pages.modals.guests_modal import GuestsModal
 from tests.tests_data.Vacation import Vacation
-from helpers.utils import clean_string
 
 
 class BookingPage(BasePage):
@@ -39,12 +42,13 @@ class BookingPage(BasePage):
         return self._dates.inner_text()
 
     def verify_dates(self) -> bool:
-        dates = DatePickerHelper().format_airbnb_checkout_date_range(
+        expected_dates = format_airbnb_checkout_date_range(
             self.vacation.checkin, self.vacation.checkout
         )
+        actual_dates = self.get_dates()
         assert (
-            dates in self.get_dates()
-        ), f"Expected dates {dates} not found in booking page. Found: {self.get_dates()}"
+            expected_dates in self.get_dates()
+        ), f"Expected dates {expected_dates} not found in booking page. Found: {self.get_dates()}"
 
     def verify_appartment_name(self, appartment_name: str):
         actual_title = clean_string(self._title.inner_text())
@@ -66,7 +70,7 @@ class BookingPage(BasePage):
 
     @property
     def price(self):
-        return DatePickerHelper().price_str_to_float(self._price.inner_text())
+        return price_str_to_float(self._price.inner_text())
 
     # I tried to do it as modular as can get so it finds this att in the guests modal
     def verify_guests_of_type(self, guest_type: str, count: int):

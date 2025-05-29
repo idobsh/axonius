@@ -1,5 +1,5 @@
 from playwright.sync_api import Page, expect
-from helpers.date_picker_helper import DatePickerHelper
+from helpers.utils import format_airbnb_checkout_date_range
 from pages.base_page import BasePage
 from pages.ui_components.asset_card import AssetCard
 
@@ -38,7 +38,7 @@ class ResultsPage(BasePage):
         ).to_contain_text(value)
 
     def verify_vacation_details(self):
-        dates = DatePickerHelper().format_airbnb_checkout_date_range(
+        dates = format_airbnb_checkout_date_range(
             self.vacation.checkin, self.vacation.checkout
         )
         sum_of_guests = self.vacation.num_of_guests
@@ -73,12 +73,17 @@ class ResultsPage(BasePage):
 
     def check_cards_in_page(self):
         chosen_card = None
-        expect(self.get_asset_locators().nth(10)).to_be_visible(
+        expect(
+            self.get_asset_locators().nth(10), f"No assets are showing"
+        ).to_be_visible(
             timeout=3000
         )  # Promise that all the assets loaded
         assets = self.get_asset_locators()
         self.logger.info(f"Found {assets.count()} asset cards on the page.")
         for i in range(assets.count()):
+            if assets.nth(i).get_attribute("role") == "presentation":
+                self.logger.info("It offers similar dates, skipping it")
+                continue
             card = AssetCard(self.pw_page, assets.nth(i))
             if card.is_valid():
                 if (

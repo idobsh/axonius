@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 import os
 import json
 import random
@@ -11,6 +11,15 @@ def load_test_data(filename="test_data.json"):
 
     with open(os.path.abspath(file_path), "r") as f:
         return json.load(f)
+
+
+# prices
+def price_str_to_float(price_str: str) -> int:
+    cleaned = price_str.replace("₪", "").replace(",", "").split(".")[0]
+    return int(cleaned)
+
+
+# DATES
 
 
 def generate_random_dates() -> tuple[str, str]:
@@ -30,3 +39,28 @@ def generate_random_dates() -> tuple[str, str]:
 def clean_string(string: str) -> str:
     cleaned = re.sub(r"\s+", " ", string).strip()
     return cleaned
+
+
+def format_to_airbnb_display(iso_date: str) -> str:
+    """
+    Converts an ISO date string (YYYY-MM-DD) to Airbnb-style format like 'Jul 8'.
+
+    Args:
+        iso_date (str): A date string in 'YYYY-MM-DD' format
+
+    Returns:
+        str: A formatted string like 'Jul 8'
+    """
+    dt = datetime.strptime(iso_date, "%Y-%m-%d")
+    return dt.strftime("%b %-d")
+
+
+def format_airbnb_checkout_date_range(checkin: str, checkout: str) -> str:
+    checkin_dt = datetime.strptime(checkin, "%Y-%m-%d")
+    checkout_dt = datetime.strptime(checkout, "%Y-%m-%d")
+
+    month_abbr = checkin_dt.strftime("%b")  # Jun
+    day_start = checkin_dt.day  # 10
+    day_end = checkout_dt.day  # 19
+
+    return f"{month_abbr} {day_start} – {day_end}"

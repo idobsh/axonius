@@ -1,4 +1,6 @@
-from playwright.sync_api import Page
+from time import sleep
+from playwright.sync_api import Page, expect
+from helpers.utils import generate_random_dates
 from pages.base_page import BasePage
 from pages.modals.date_picker_modal import DatePickerModal
 from pages.modals.guests_modal import GuestsModal
@@ -11,8 +13,8 @@ class AirbnbHomePage(BasePage):
     PATH = "/"
     # LOCATORS
     WHERE_FIELD = "structured-search-input-field-query"
-    CHECKIN_FIELD = r"^Check in"
-    CHECKOUT_FIELD = r"^Check out"
+    CHECKIN_FIELD = "Check in"
+    CHECKOUT_FIELD = "Check out"
     GUESTS_FIELD = r"^Who"
     SEARCH_BUTTON = "structured-search-input-search-button"
 
@@ -71,12 +73,14 @@ class AirbnbHomePage(BasePage):
     def select_dates(self):
         # TODO add an argument that state if it came after the dest or not
         # self.open_date_picker()
-        self.date_picker_modal.wait_to_be_visible()
+        self.pw_page.wait_for_load_state("load")
+        self.date_picker_modal.wait_to_be_visible
+        sleep(1)  # Sorry but I tried
         self.date_picker_modal.select_date(self.vacation.checkin)
         self.date_picker_modal.select_date(self.vacation.checkout)
 
     def get_dates_for_vacation(self):
-        return self.date_picker_modal.helper.generate_random_dates()
+        return generate_random_dates()
 
     def get_airbnb_date_display(self, date):
         return self.date_picker_modal.helper.format_to_airbnb_display(date)
