@@ -7,3 +7,5 @@ reports/
 reports/
 .pre-commit-config.yaml
 .vscode/settings.json
+.DS_Store
+tests/artifacts/

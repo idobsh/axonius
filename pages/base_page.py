@@ -2,7 +2,7 @@ from playwright.sync_api import Page, expect
 
 
 class BasePage:
-    DEFAULT_NAV_TIMEOUT = 10000000000
+    DEFAULT_NAV_TIMEOUT = 10000
     BASE_URL = "https://www.airbnb.com"
     # DEFAULT_NAV_TIMEOUT = timeouts.pw.navigation.default_millis
     # SELECTORS

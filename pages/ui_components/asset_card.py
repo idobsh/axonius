@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from pathlib import Path
 import tempfile
@@ -53,12 +54,25 @@ class AssetCard:
         return self.RATING in self._asset_locator.inner_text()
 
     def save_card_to_temp(self):
-        data = self.to_dict()  # assumes AssetCard has a .to_dict() method
+        data = self.to_dict()
+        if not data:
+            print("No data to save!")
+            return None
 
-        temp_dir = tempfile.gettempdir()
-        file_path = Path(temp_dir) / "best_asset.json"
+        # Get the project root (axonius)
+        project_root = Path(__file__).resolve().parents[2]
+        artifacts_dir = project_root / "tests" / "artifacts"
+        artifacts_dir.mkdir(parents=True, exist_ok=True)
 
-        with open(file_path, "w") as f:
-            json.dump(data, f, indent=2)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_path = artifacts_dir / f"test_artifact_{timestamp}.json"
+
+        try:
+            with open(file_path, "w") as f:
+                json.dump(data, f, indent=2)
+            print(f"Saved card data to {file_path}")
+        except Exception as e:
+            print(f"Failed to save card data: {e}")
+            return None
 
         return file_path
